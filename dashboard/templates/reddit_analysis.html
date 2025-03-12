@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Reddit Analysis</h2>
+
+<!-- 1. Average Upvotes Over Time -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Average Upvotes Over Time</h4>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <label for="upvotes_start_date" class="form-label">Start Date:</label>
+        <input type="date" name="upvotes_start_date" id="upvotes_start_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="upvotes_end_date" class="form-label">End Date:</label>
+        <input type="date" name="upvotes_end_date" id="upvotes_end_date" class="form-control">
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_upvotes" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if upvotes_plot_url %}
+    <div class="mt-3">
+      <img src="{{ upvotes_plot_url }}" alt="Avg Upvotes Over Time" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if upvotes_message %}
+    <p class="mt-2">{{ upvotes_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- 2. Correlation between Toxicity Confidence and Upvotes -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Correlation between Toxicity Confidence and Upvotes</h4>
+    <p>Choose a toxicity confidence range, e.g. "0.1 to 0.2" or "0.6 to 0.8".</p>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <input type="text" name="tox_conf_lower" placeholder="Lower bound (e.g. 0.1)" class="form-control">
+      </div>
+      <div class="col-auto">
+        <input type="text" name="tox_conf_upper" placeholder="Upper bound (e.g. 1)" class="form-control">
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_correlation" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if correlation_plot_url %}
+    <div class="mt-3">
+      <img src="{{ correlation_plot_url }}" alt="Toxicity Confidence vs Upvotes" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if correlation_message %}
+    <p class="mt-2">{{ correlation_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Toxicity Distribution by Subreddit -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Toxicity Distribution by Subreddit</h4>
+    <p>Select one or multiple subreddits and choose which post types (normal, flagged) to display.</p>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <label for="subreddits_select" class="form-label">Subreddit(s):</label>
+        <select name="selected_subreddits" id="subreddits_select" class="form-select" multiple>
+          {% for sb in subreddit_list %}
+          <option value="{{ sb }}">{{ sb }}</option>
+          {% endfor %}
+        </select>
+        <small>Hold Ctrl (Windows) or Command (Mac) to select multiple</small>
+      </div>
+      <div class="col-auto">
+        <label for="toxicity_types" class="form-label">Post Types:</label>
+        <select name="toxicity_types" id="toxicity_types" class="form-select" multiple>
+          <option value="normal">normal</option>
+          <option value="flagged">flagged</option>
+        </select>
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_toxicity_distribution" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if toxicity_dist_plot_url %}
+    <div class="mt-3">
+      <img src="{{ toxicity_dist_plot_url }}" alt="Toxicity Distribution by Subreddit" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if toxicity_dist_message %}
+    <p class="mt-2">{{ toxicity_dist_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+
+<!-- Reddit Activity Heatmap for Posts -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Reddit Activity Heatmap for Posts</h4>
+    <p>This shows activity (number of posts) by day of week vs. hour of day, for posts.</p>
+    <form method="post">
+      <button type="submit" name="submit_post_activity_heatmap" class="btn btn-primary">Generate Heatmap</button>
+    </form>
+    {% if post_activity_plot_url %}
+    <div class="mt-3">
+      <img src="{{ post_activity_plot_url }}" alt="Reddit Activity Heatmap" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if post_activity_message %}
+    <p class="mt-2">{{ post_activity_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Daily Number of Comments by Subreddit -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Daily Number of Comments by Subreddit</h4>
+    <p>Select a start and end date to view the daily number of comments aggregated by subreddit, and choose specific subreddits.</p>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <label for="comments_start_date" class="form-label">Start Date:</label>
+        <input type="date" name="comments_start_date" id="comments_start_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="comments_end_date" class="form-label">End Date:</label>
+        <input type="date" name="comments_end_date" id="comments_end_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="comments_subreddits" class="form-label">Subreddit(s):</label>
+        <select name="comments_subreddits" id="comments_subreddits" class="form-select" multiple>
+          {% for sb in subreddit_list %}
+          <option value="{{ sb }}">{{ sb }}</option>
+          {% endfor %}
+        </select>
+        <small>Hold Ctrl/Command for multiple select</small>
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_daily_comments" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if daily_comments_plot_url %}
+    <div class="mt-3">
+      <img src="{{ daily_comments_plot_url }}" alt="Daily Comments by Subreddit" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if daily_comments_message %}
+    <p class="mt-2">{{ daily_comments_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Number of posts in each subreddit -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Number of Posts in Each Subreddit</h4>
+    <p>Select a start and end date and choose one or multiple subreddits.</p>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <label for="posts_start_date" class="form-label">Start Date:</label>
+        <input type="date" name="posts_start_date" id="posts_start_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="posts_end_date" class="form-label">End Date:</label>
+        <input type="date" name="posts_end_date" id="posts_end_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="posts_subreddits" class="form-label">Subreddit(s):</label>
+        <select name="posts_subreddits" id="posts_subreddits" class="form-select" multiple>
+          {% for sb in subreddit_list %}
+          <option value="{{ sb }}">{{ sb }}</option>
+          {% endfor %}
+        </select>
+        <small>Hold Ctrl/Command for multiple select</small>
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_subreddit_posts" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if subreddit_posts_plot_url %}
+    <div class="mt-3">
+      <img src="{{ subreddit_posts_plot_url }}" alt="Number of Posts in Each Subreddit" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if subreddit_posts_message %}
+    <p class="mt-2">{{ subreddit_posts_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Reddit Comment activity heatmap -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Reddit Comment Activity Heatmap</h4>
+    <p>Shows a heatmap of comment activity by day of week and hour of day.</p>
+    <form method="post">
+      <button type="submit" name="submit_comment_heatmap" class="btn btn-primary">Generate Heatmap</button>
+    </form>
+    {% if comment_heatmap_plot_url %}
+    <div class="mt-3">
+      <img src="{{ comment_heatmap_plot_url }}" alt="Reddit Comment Activity Heatmap" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if comment_heatmap_message %}
+    <p class="mt-2">{{ comment_heatmap_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Dataset Summary Footer -->
+<h3>Dataset Summary</h3>
+<table class="table table-bordered table-striped">
+  <tbody>
+    {% for row in reddit_dataset_summary %}
+    <tr>
+      <td>{{ row.table_name }}</td>
+      <td>{{ row.count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

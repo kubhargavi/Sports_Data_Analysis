@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>4Chan Analysis</h2>
+
+<!-- 1. Toxicity distribution by board for posts -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Toxicity Distribution by Board</h4>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <label for="chan_boards_toxicity" class="form-label">Board(s):</label>
+        <select name="chan_boards_toxicity" id="chan_boards_toxicity" class="form-select" multiple>
+          {% for b in board_list %}
+          <option value="{{ b }}">{{ b }}</option>
+          {% endfor %}
+        </select>
+        <small>Hold Ctrl/Command for multiple</small>
+      </div>
+      <div class="col-auto">
+        <label for="chan_toxicity_types" class="form-label">Post Types:</label>
+        <select name="chan_toxicity_types" id="chan_toxicity_types" class="form-select" multiple>
+          <option value="normal">normal</option>
+          <option value="flagged">flagged</option>
+        </select>
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_chan_toxicity" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if chan_toxicity_plot_url %}
+    <div class="mt-3">
+      <img src="{{ chan_toxicity_plot_url }}" alt="Toxicity Distribution by Board" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if chan_toxicity_message %}
+    <p class="mt-2">{{ chan_toxicity_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- 2. 4chan activity heatmap for posts -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>4chan Activity Heatmap for Posts</h4>
+    <p>Shows activity (number of posts) by day_of_week vs hour_of_day for posts.</p>
+    <form method="post">
+      <button type="submit" name="submit_chan_activity_heatmap" class="btn btn-primary">Generate Heatmap</button>
+    </form>
+    {% if chan_activity_plot_url %}
+    <div class="mt-3">
+      <img src="{{ chan_activity_plot_url }}" alt="4chan Activity Heatmap" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if chan_activity_message %}
+    <p class="mt-2">{{ chan_activity_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- 3. Daily Number of comments on Chan by board -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Daily Number of Comments by Board</h4>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <label for="chan_comments_start_date" class="form-label">Start Date:</label>
+        <input type="date" name="chan_comments_start_date" id="chan_comments_start_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="chan_comments_end_date" class="form-label">End Date:</label>
+        <input type="date" name="chan_comments_end_date" id="chan_comments_end_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="chan_comments_boards" class="form-label">Board(s):</label>
+        <select name="chan_comments_boards" id="chan_comments_boards" class="form-select" multiple>
+          {% for b in board_list %}
+          <option value="{{ b }}">{{ b }}</option>
+          {% endfor %}
+        </select>
+        <small>Hold Ctrl/Command for multiple</small>
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_chan_daily_comments" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if chan_daily_comments_plot_url %}
+    <div class="mt-3">
+      <img src="{{ chan_daily_comments_plot_url }}" alt="Daily Comments by Board" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if chan_daily_comments_message %}
+    <p class="mt-2">{{ chan_daily_comments_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- 4. 4Chan comment activity heatmap -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>4Chan Comment Activity Heatmap</h4>
+    <p>Shows a heatmap of comment activity by day_of_week and hour_of_day.</p>
+    <form method="post">
+      <button type="submit" name="submit_chan_comment_heatmap" class="btn btn-primary">Generate Heatmap</button>
+    </form>
+    {% if chan_comment_heatmap_plot_url %}
+    <div class="mt-3">
+      <img src="{{ chan_comment_heatmap_plot_url }}" alt="4chan Comment Activity Heatmap" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if chan_comment_heatmap_message %}
+    <p class="mt-2">{{ chan_comment_heatmap_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- 5. Number of Posts in Each 4chan Board -->
+<div class="card mb-4">
+  <div class="card-body">
+    <h4>Number of Posts in Each 4chan Board</h4>
+    <form method="post" class="row g-3">
+      <div class="col-auto">
+        <label for="chan_posts_start_date" class="form-label">Start Date:</label>
+        <input type="date" name="chan_posts_start_date" id="chan_posts_start_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="chan_posts_end_date" class="form-label">End Date:</label>
+        <input type="date" name="chan_posts_end_date" id="chan_posts_end_date" class="form-control">
+      </div>
+      <div class="col-auto">
+        <label for="chan_posts_boards" class="form-label">Board(s):</label>
+        <select name="chan_posts_boards" id="chan_posts_boards" class="form-select" multiple>
+          {% for b in board_list %}
+          <option value="{{ b }}">{{ b }}</option>
+          {% endfor %}
+        </select>
+        <small>Hold Ctrl/Command for multiple select</small>
+      </div>
+      <div class="col-auto align-self-end">
+        <button type="submit" name="submit_chan_posts" class="btn btn-primary mt-2">Update Plot</button>
+      </div>
+    </form>
+    {% if chan_posts_plot_url %}
+    <div class="mt-3">
+      <img src="{{ chan_posts_plot_url }}" alt="Number of Posts in Each 4chan Board" class="img-fluid">
+    </div>
+    {% endif %}
+    {% if chan_posts_message %}
+    <p class="mt-2">{{ chan_posts_message }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Dataset Summary (Chan Only) -->
+<h3>Dataset Summary</h3>
+<table class="table table-bordered table-striped">
+  <tbody>
+    {% for row in chan_dataset_summary %}
+    <tr>
+      <td>{{ row.table_name }}</td>
+      <td>{{ row.count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
