@@ -122,8 +122,6 @@ python app.py
 
 This section provides **RQ-driven advanced insights** into Reddit and 4chan posts:
 
-##### Key Features:
-
 - **Most Toxic Posts**:
   - Displays top posts ranked by toxicity confidence.
   - Useful for identifying extreme or harmful discussions.
