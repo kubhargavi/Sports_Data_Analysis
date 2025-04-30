@@ -35,8 +35,6 @@ docker run -d --name faktory \
   /faktory -b :7519 -w :7520
 ```
 
-To run and monitor Faktory:
-
 ```bash
 docker start faktory
 ```
