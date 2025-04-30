@@ -1,4 +1,4 @@
-## 1. 🧵 Running Crawlers
+## 1. Running Crawlers
 
 I implemented two crawlers:
 
@@ -16,7 +16,7 @@ These crawlers operate on a loop, continuously fetching new data and sending job
 
 ---
 
-## 2. 📦 Faktory
+## 2. Faktory
 
 **Faktory** is a job queue system used here to manage background tasks efficiently.
 
@@ -39,7 +39,7 @@ docker run -d --name faktory \
 
 ---
 
-## 3. 🐘 Database Access via pgAdmin
+## 3. Database Access via pgAdmin
 
 All posts and comments were stored in **TimescaleDB**, a time-series optimized PostgreSQL database.
 
@@ -68,7 +68,7 @@ docker run -d --name pgadmin \
 
 ---
 
-## 4. 📊 Displaying the Dashboard
+## 4. Displaying the Dashboard
 
 The web dashboard is built using **Flask** and allows users to interact with the collected data:
 
@@ -78,7 +78,7 @@ python app.py
 
 - Access the dashboard at: [http://localhost:5000](http://localhost:5000)
 
-### 🧭 Dashboard Navigation
+### Dashboard Navigation
 
 #### Home Page (`/`)
 - Landing page with navigation links to analysis sections.
