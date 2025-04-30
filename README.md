@@ -35,6 +35,8 @@ docker run -d --name faktory \
   /faktory -b :7519 -w :7520
 ```
 
+To Run, execute:
+
 ```bash
 docker start faktory
 ```
@@ -67,6 +69,8 @@ docker run -d --name pgadmin \
   -p 5050:80 \
   dpage/pgadmin4
 ```
+
+To Run, execute:
 
 ```bash
 docker start pgadmin
