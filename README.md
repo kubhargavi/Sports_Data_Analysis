@@ -64,8 +64,8 @@ docker run -d --name timescaledb \
 
 ```bash
 docker run -d --name pgadmin \
-  -e PGADMIN_DEFAULT_EMAIL=<hashed_email> \
-  -e PGADMIN_DEFAULT_PASSWORD=<hashed_password> \
+  -e PGADMIN_DEFAULT_EMAIL=### \
+  -e PGADMIN_DEFAULT_PASSWORD=### \
   -p 5050:80 \
   dpage/pgadmin4
 ```
