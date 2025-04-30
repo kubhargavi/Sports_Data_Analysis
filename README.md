@@ -116,8 +116,6 @@ python app.py
   - **Daily Comments**: Comments per day across chosen boards.
   - **Post Trends**: Board-wise trends over time.
 
----
-
 #### `/additional_analysis`
 
 This section provides **RQ-driven advanced insights** into Reddit and 4chan posts:
