@@ -35,12 +35,6 @@ docker run -d --name faktory \
   /faktory -b :7519 -w :7520
 ```
 
-To Run, execute:
-
-```bash
-docker start faktory
-```
-
 - Access the Faktory web UI at: [http://127.0.0.1:7520](http://127.0.0.1:7520)
 
 ---
@@ -68,13 +62,6 @@ docker run -d --name pgadmin \
   -e PGADMIN_DEFAULT_PASSWORD=### \
   -p 5050:80 \
   dpage/pgadmin4
-```
-
-To Run, execute:
-
-```bash
-docker start pgadmin
-docker start timescaledb
 ```
 
 - Access pgAdmin at: [http://localhost:5050](http://localhost:5050)
